@@ -30,7 +30,9 @@ Removes the file from the FileSystem storage.
 Removes the stored entry from db.
 
 ## Design Process and Insights
-
+First I decided to make two directories to store the mailer and notification(rabbit) services. I also created a schema
+directory to store the user module. The user module contains the user controller, user service, user entity (schema), as
+well as the user.module.
 
 ## Application Installation
 
