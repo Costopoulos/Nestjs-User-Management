@@ -1,4 +1,4 @@
-import {Inject, Injectable, NotFoundException} from "@nestjs/common";
+import {Inject, Injectable, InternalServerErrorException, NotFoundException} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {User} from "../schemas/user.schema";
@@ -19,6 +19,10 @@ export class UserService {
     }
 
     async createUser(email: string, first_name: string, last_name: string, avatar: string): Promise<User> {
+        const userExists = await this.userModel.findOne({email: email});
+        if (userExists) {
+            throw new InternalServerErrorException('User already exists');
+        }
         const newUser = new this.userModel({email, first_name, last_name, avatar});
         const savedUser = await newUser.save();
 
@@ -54,20 +58,24 @@ export class UserService {
         }
         let avatar = user.avatar;
 
-        // If the avatar is a url, it is the first call for this user, so save the image to the file system after
-        // having md5 hashed it
-        if (avatar.startsWith('http')) {
-            avatar = await hashAndSave(avatar);
+        try {
+            // If the avatar is a url, it is the first call for this user, so save the image to the file system after
+            // having md5 hashed it
+            if (avatar.startsWith('http')) {
+                avatar = await hashAndSave(avatar);
 
-            // Update the user document in MongoDB with the new avatar
-            await this.userModel.findByIdAndUpdate(id, {avatar: avatar});
+                // Update the user document in MongoDB with the new avatar
+                await this.userModel.findByIdAndUpdate(id, {avatar: avatar});
+            }
+
+            // If the avatar is not a url, it is the second call for this user, so retrieve the image from the file system
+            // straight away
+            const avatarPath = path.join(__dirname, '../../media/avatars', `${avatar}.jpg`);
+            const avatarBuffer = fs.readFileSync(avatarPath);
+            return Buffer.from(avatarBuffer).toString('base64');
+        } catch (error) {
+            throw new InternalServerErrorException('Error retrieving avatar');
         }
-
-        // If the avatar is not a url, it is the second call for this user, so retrieve the image from the file system
-        // straight away
-        const avatarPath = path.join(__dirname, '../../media/avatars', `${avatar}.jpg`);
-        const avatarBuffer = fs.readFileSync(avatarPath);
-        return Buffer.from(avatarBuffer).toString('base64');
     }
 
     async deleteUserAvatar(id: string): Promise<{ message: string }> {
@@ -77,15 +85,19 @@ export class UserService {
             throw new NotFoundException('User or avatar not found');
         }
 
-        const avatarPath = path.join(__dirname, '../../media/avatars', `${user.avatar}.jpg`);
-        // Remove the file from the filesystem
-        if (fs.existsSync(avatarPath)) {
-            fs.unlinkSync(avatarPath);
-        }
-        // Remove the avatar field from the user document in MongoDB
-        user.avatar = null;
-        await user.save();
+        try {
+            const avatarPath = path.join(__dirname, '../../media/avatars', `${user.avatar}.jpg`);
+            // Remove the file from the filesystem
+            if (fs.existsSync(avatarPath)) {
+                fs.unlinkSync(avatarPath);
+            }
+            // Remove the avatar field from the user document in MongoDB
+            user.avatar = null;
+            await user.save();
 
-        return {message: 'Avatar deleted successfully'};
+            return {message: 'Avatar deleted successfully'};
+        } catch (error) {
+            throw new InternalServerErrorException('Error deleting avatar');
+        }
     }
 }
