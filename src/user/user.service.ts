@@ -18,8 +18,8 @@ export class UserService {
     ) {
     }
 
-    async createUser(email: string, firstName: string, lastName: string, avatar: string): Promise<User> {
-        const newUser = new this.userModel({email, firstName, lastName, avatar});
+    async createUser(email: string, first_name: string, last_name: string, avatar: string): Promise<User> {
+        const newUser = new this.userModel({email, first_name, last_name, avatar});
         const savedUser = await newUser.save();
 
         // Send email

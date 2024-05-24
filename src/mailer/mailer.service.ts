@@ -7,15 +7,23 @@ export class MailerService {
     private transporter = nodemailer.Transporter;
 
     constructor() {
-        this.transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: process.env.SMTP_PORT || 587,
-            secure: false, // true for 465, false for other ports
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            },
-        });
+        if (process.env.USE_DUMMY_EMAIL === 'true') {
+            this.transporter = nodemailer.createTransport({
+                streamTransport: true,
+                newline: 'unix',
+                buffer: true,
+            });
+        } else {
+            this.transporter = nodemailer.createTransport({
+                host: process.env.SMTP_HOST,
+                port: process.env.SMTP_PORT || 587,
+                secure: false, // true for 465, false for other ports
+                auth: {
+                    user: process.env.SMTP_USER,
+                    pass: process.env.SMTP_PASS,
+                },
+            });
+        }
     }
 
     async sendMail(to: string, subject: string, text: string): Promise<void> {
@@ -25,6 +33,14 @@ export class MailerService {
             subject: subject, // Subject line
             text: text, // plain text body
         };
+
+        if (process.env.USE_DUMMY_EMAIL === 'true') {
+            console.log('Dummy email content:');
+            console.log(`From: ${mailOptions.from}`);
+            console.log(`To: ${to}`);
+            console.log(`Subject: ${subject}`);
+            console.log(`Text: ${text}`);
+        }
 
         await this.transporter.sendMail(mailOptions);
     }

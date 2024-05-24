@@ -7,11 +7,11 @@ export class UserController {
     }
 
     @Post('users')
-    async createUser(@Body() createUserDto: { email: string, firstName: string, lastName: string, avatar: string }) {
+    async createUser(@Body() createUserDto: { email: string, first_name: string, last_name: string, avatar: string }) {
         return this.userService.createUser(
             createUserDto.email,
-            createUserDto.firstName,
-            createUserDto.lastName,
+            createUserDto.first_name,
+            createUserDto.last_name,
             createUserDto.avatar
         );
     }
@@ -22,12 +22,14 @@ export class UserController {
     }
 
     // @Get('user/:id/avatar')
-    // async deleteUserAvatar(@Param('id') id: number){
+    // // This id is of type string, since it is referring to the id of the user in the database, not in the URL
+    // async deleteUserAvatar(@Param('id') id: string){
     //     return this.userService.deleteUserAvatar(id);
     // }
 
     // @Delete('user/:id/avatar')
-    // async deleteUserAvatar(@Param('id') id: number){
+    // // This id is of type string, since it is referring to the id of the user in the database, not in the URL
+    // async deleteUserAvatar(@Param('id') id: string){
     //     return this.userService.deleteUserAvatar(id);
     // }
 }

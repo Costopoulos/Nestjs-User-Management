@@ -42,6 +42,22 @@ controllers and the business logic, especially when keeping in mind that we want
 and the code can scale infinitely. Therefore, I created a `src/rabbit` directory to store the RabbitMQ service and the
 RabbitMQ module.
 
+Developing the API, the second endpoint, `GET /api/user/{userId}`, refers to a `userId` that is not the same as the one
+in the MongoDB database, thus is not alphanumeric, but rather, a number. That is why I kept this as a number, in order
+to keep the API consistent with the `Reqres` API. On the other hand, the `userId` for the other two endpoints containing
+a `userId` is the one from the MongoDB database, thus is alphanumeric. There was no need changing it to be an incremental
+numerical, as it is not needed for the purpose of the endpoints and would only further complicate the code.
+
+For the POST request I decided to add a `USE_DUMMY_EMAIL` environment variable, which, if set to `true`, will send a
+dummy email to the user created. It is essentially logging to the console the hard-coded sender, aka me - 
+costopoulos.constantinos@gmail.com, the email of the user, the subject and the contents of the email through which the
+user is welcomed to my platform. The email is sent using the `nodemailer` package, and the email is sent to the user's
+email address, which is stored in the MongoDB database. In the future, I will implement that if the env variable is set
+to `false`, the email will be _actually_ sent from my email address to the user's email address, with the same content
+as the dummy email. The implementation will be based on 2-step verification through Gmail and the `OAuth2` protocol, so
+an application-specific password will be used in order for my email data to be safe.
+
+
 ## Application Installation
 
 ```bash
