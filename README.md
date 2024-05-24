@@ -37,6 +37,11 @@ defined in a schema directory under `src`, aka `src/schemas`. The user module co
 as well as the user.module. Normally, it is a good practice to keep all the schemas in a separate directory, and,
 although technically not needed for this sole-entity-project, I decided to keep it that way for the sake of consistency.
 
+I decided to separate RabbitMQ as a separate service, as it is a good practice to keep the services separate from the
+controllers and the business logic, especially when keeping in mind that we want anything to be added without a problem
+and the code can scale infinitely. Therefore, I created a `src/rabbit` directory to store the RabbitMQ service and the
+RabbitMQ module.
+
 ## Application Installation
 
 ```bash
