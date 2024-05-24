@@ -1,5 +1,4 @@
 import {ClientsModule, Transport} from "@nestjs/microservices";
-// import process from "node:process";
 import {Module} from "@nestjs/common";
 import * as dotenv from 'dotenv';
 

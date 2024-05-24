@@ -27,9 +27,9 @@ export class UserController {
         return this.userService.getAvatarById(id);
     }
 
-    // @Delete('user/:id/avatar')
-    // // This id is of type string, since it is referring to the id of the user in the database, not in the URL
-    // async deleteUserAvatar(@Param('id') id: string){
-    //     return this.userService.deleteUserAvatar(id);
-    // }
+    @Delete('user/:id/avatar')
+    // This id is of type string, since it is referring to the id of the user in the database, not in the URL
+    async deleteUserAvatar(@Param('id') id: string){
+        return this.userService.deleteUserAvatar(id);
+    }
 }

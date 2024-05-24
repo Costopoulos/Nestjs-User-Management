@@ -68,6 +68,9 @@ To verify that the image is encoded to base64 correctly, I created a `image.b64`
 directory to store the base64 encoded image - the string essentially - and then I `base64 -d image.b64 > image.jpg` to
 decode the image and see if it is the same as the original image. It is the same, so the encoding is correct.
 
+For deleting the avatar of the user, I just delete the file from the file system and then delete the avatar element from
+the user in the MongoDB database.
+
 
 ## Application Installation
 

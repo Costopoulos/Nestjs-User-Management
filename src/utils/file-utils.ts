@@ -3,18 +3,6 @@ import axios from 'axios';
 import * as crypto from 'crypto';
 import * as path from "node:path";
 
-export const deleteFile = (filePath: string): Promise<void> => {
-    return new Promise((resolve, reject) => {
-        fs.unlink(filePath, (err) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve();
-            }
-        });
-    });
-};
-
 export async function hashAndSave(url: string): Promise<string> {
     const response = await axios.get(url, {responseType: 'arraybuffer'});
     // Generate the MD5 hash of the image data
