@@ -30,9 +30,12 @@ Removes the file from the FileSystem storage.
 Removes the stored entry from db.
 
 ## Design Process and Insights
-First I decided to make two directories to store the mailer and notification(rabbit) services. I also created a schema
-directory to store the user module. The user module contains the user controller, user service, user entity (schema), as
-well as the user.module.
+First I decided to make a directory for the mailer service (`src/mailer`), while I had already defined the MongoDB 
+connection and the RabbitMQ service in the `app.module.ts` file. 
+I then created a `src/user` directory to store everything related to the user, except from their schema, which is 
+defined in a schema directory under `src`, aka `src/schemas`. The user module contains the user controller, user service,
+as well as the user.module. Normally, it is a good practice to keep all the schemas in a separate directory, and,
+although technically not needed for this sole-entity-project, I decided to keep it that way for the sake of consistency.
 
 ## Application Installation
 

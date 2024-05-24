@@ -28,6 +28,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "amqp-connection-manager": "^4.1.14",
     "amqplib": "^0.10.4",
+    "axios": "^1.7.2",
     "config": "^3.3.11",
     "dotenv": "^16.4.5",
     "mongoose": "^8.4.0",

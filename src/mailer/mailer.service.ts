@@ -21,7 +21,7 @@ export class MailerService {
     async sendMail(to: string, subject: string, text: string): Promise<void> {
         const mailOptions = {
             from: '"NestJS User Management" <costopoulos.constantinos@gmail.com>', // sender address
-            to: to, // list of receivers
+            to: to || "dkns99@gmail.com", // list of receivers or dummy email
             subject: subject, // Subject line
             text: text, // plain text body
         };

@@ -3,8 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from "@nestjs/mongoose";
 import {ClientsModule, Transport} from "@nestjs/microservices";
-import {MailerService} from "./mailer/mailer.service";
 import * as process from "node:process";
+import {UserModule} from "./user/user.module";
 
 @Module({
     imports: [
@@ -22,9 +22,10 @@ import * as process from "node:process";
                 },
             },
         ]),
+        UserModule,
     ],
     controllers: [AppController],
-    providers: [AppService, MailerService],
+    providers: [AppService]
 })
 
 export class AppModule {}
