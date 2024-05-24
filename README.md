@@ -57,6 +57,17 @@ to `false`, the email will be _actually_ sent from my email address to the user'
 as the dummy email. The implementation will be based on 2-step verification through Gmail and the `OAuth2` protocol, so
 an application-specific password will be used in order for my email data to be safe.
 
+For getting the avatar of the user given their id, I check if the avatar element acquired when querying the database is 
+a url, it is the first call for this user, so save the image to the file system after having hashed it with the `MD5`
+algorithm. The MD5 algorithm is used to hash the image, as it is a fast and reliable algorithm for hashing files. The
+image is then saved in the `media/avatars` directory, with the name of the file being the hash of the image. The hash
+is then stored in the MongoDB database, along with the user's id. The image is then returned in `base64` encoding. If the
+avatar element is not a url, then the image is already saved in the file system, so the image is read from the file system.
+
+To verify that the image is encoded to base64 correctly, I created a `image.b64` file under a the `media/avatars/encoding-decoding-test`
+directory to store the base64 encoded image - the string essentially - and then I `base64 -d image.b64 > image.jpg` to
+decode the image and see if it is the same as the original image. It is the same, so the encoding is correct.
+
 
 ## Application Installation
 
