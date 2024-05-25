@@ -51,7 +51,6 @@ describe('UserController', () => {
     describe('createUser', () => {
         it('should return a user by id', async () => {
             const result = await controller.getUserById(1);
-            console.error(result);
             expect(result).toEqual(expect.objectContaining({
                 _id: '1',
                 email: 'test@example.com',
@@ -67,7 +66,6 @@ describe('UserController', () => {
         it('should return a user by id', async () => {
             try {
                 const result = await controller.getUserById(1);
-                console.error(result);
             } catch (error) {
                 console.error(error);
             }

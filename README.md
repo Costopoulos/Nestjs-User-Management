@@ -55,7 +55,8 @@ user is welcomed to my platform. The email is sent using the `nodemailer` packag
 email address, which is stored in the MongoDB database. In the future, I will implement that if the env variable is set
 to `false`, the email will be _actually_ sent from my email address to the user's email address, with the same content
 as the dummy email. The implementation will be based on 2-step verification through Gmail and the `OAuth2` protocol, so
-an application-specific password will be used in order for my email data to be safe.
+an application-specific password will be used in order for my email data to be safe. As for the RabbitMQ event, it is
+a dummy, _emit_ event, as no consumer is needed.
 
 For getting the avatar of the user given their id, I check if the avatar element acquired when querying the database is 
 a url, it is the first call for this user, so save the image to the file system after having hashed it with the `MD5`
@@ -71,6 +72,7 @@ decode the image and see if it is the same as the original image. It is the same
 For deleting the avatar of the user, I just delete the file from the file system and then delete the avatar element from
 the user in the MongoDB database.
 
+For details regarding testing, look in the [Test](https://github.com/Costopoulos/Nestjs-User-Management?tab=readme-ov-file#test) section.
 
 ## Application Installation
 
@@ -102,6 +104,59 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+```
+
+The testing is of course done natively through `jest`, as it is the default testing framework for NestJS. 
+I added `mocking` for mocking as well as actual endpoint testing. 
+This is the result of `npm run test`:
+
+```
+npm run test
+
+> Nestjs-User-Management@0.0.1 test
+> jest
+
+ PASS  src/app.controller.spec.ts
+ PASS  src/mailer/mailer.service.spec.ts
+ PASS  src/rabbit/rabbit.service.spec.ts
+ PASS  src/user/user.controller.spec.ts
+ PASS  src/utils/file-utils.spec.ts
+(node:388390) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ PASS  src/user/user.service.spec.ts
+  ● Console
+
+    console.log
+      Dummy email content:
+
+      at MailerService.sendMail (mailer/mailer.service.ts:38:21)
+
+    console.log
+      From: "NestJS User Management" <costopoulos.constantinos@gmail.com>
+
+      at MailerService.sendMail (mailer/mailer.service.ts:39:21)
+
+    console.log
+      To: johndoe@email.com
+
+      at MailerService.sendMail (mailer/mailer.service.ts:40:21)
+
+    console.log
+      Subject: Welcome to NestJS User Management
+
+      at MailerService.sendMail (mailer/mailer.service.ts:41:21)
+
+    console.log
+      Text: Hello johndoe@email.com, welcome to our platform!
+
+      at MailerService.sendMail (mailer/mailer.service.ts:42:21)
+
+
+Test Suites: 6 passed, 6 total
+Tests:       17 passed, 17 total
+Snapshots:   0 total
+Time:        4.791 s, estimated 6 s
+Ran all test suites.
 ```
 
 ## License
