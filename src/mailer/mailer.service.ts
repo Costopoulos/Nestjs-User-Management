@@ -15,12 +15,14 @@ export class MailerService {
       });
     } else {
       this.transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
+        // Since in the scope of this project only a dummy email is gonna be
+        // sent, I am using the Mailtrap SMTP server
+        host: process.env.SMTP_HOST || 'sandbox.smtp.mailtrap.io',
         port: process.env.SMTP_PORT || 587,
         secure: false, // true for 465, false for other ports
         auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
+          user: process.env.SMTP_USER || '48f7e42476e96e',
+          pass: process.env.SMTP_PASS || 'cfc7a862667437',
         },
       });
     }

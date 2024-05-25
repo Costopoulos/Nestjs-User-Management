@@ -58,6 +58,15 @@ as the dummy email. The implementation will be based on 2-step verification thro
 an application-specific password will be used in order for my email data to be safe. As for the RabbitMQ event, it is
 a dummy, _emit_ event, as no consumer is needed.
 
+########## **Important Note so Far** ##############
+
+One could probably send an empty email by using `MailerService` from `@nestjs-modules/mailer`, and the whole configuration
+would have been simpler. However, I wanted to actually send an email, and, instead of going through the tedious procedure
+of setting up the `OAuth2` protocol as I mentioned above, I decided to go with `Mailtrap`, which is a dummy email service.
+Since either way I am not using a real email, I have my Mailtrap credentials hardcoded.
+
+############################################
+
 For getting the avatar of the user given their id, I check if the avatar element acquired when querying the database is 
 a url, it is the first call for this user, so save the image to the file system after having hashed it with the `MD5`
 algorithm. The MD5 algorithm is used to hash the image, as it is a fast and reliable algorithm for hashing files. The
