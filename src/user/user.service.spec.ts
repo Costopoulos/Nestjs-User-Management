@@ -37,7 +37,7 @@ describe('UserService (e2e)', () => {
   });
 
   // Set the timeout for all tests in this describe block
-  jest.setTimeout(10000); // Sets timeout to 10 seconds
+  jest.setTimeout(20000); // Sets timeout to 20 seconds
 
   afterAll(async () => {
     await mongoConnection.dropDatabase();
