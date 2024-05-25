@@ -72,6 +72,8 @@ decode the image and see if it is the same as the original image. It is the same
 For deleting the avatar of the user, I just delete the file from the file system and then delete the avatar element from
 the user in the MongoDB database.
 
+Lastly, attention was paid to code formatting according to the `eslint` rules.
+
 For details regarding testing, look in the [Test](https://github.com/Costopoulos/Nestjs-User-Management?tab=readme-ov-file#test) section.
 
 ## Application Installation
