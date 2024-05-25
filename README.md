@@ -63,7 +63,9 @@ a dummy, _emit_ event, as no consumer is needed.
 One could probably send an empty email by using `MailerService` from `@nestjs-modules/mailer`, and the whole configuration
 would have been simpler. However, I wanted to actually send an email, and, instead of going through the tedious procedure
 of setting up the `OAuth2` protocol as I mentioned above, I decided to go with `Mailtrap`, which is a dummy email service.
-Since either way I am not using a real email, I have my Mailtrap credentials hardcoded.
+Since either way I am not using a real email, I have my Mailtrap credentials hardcoded. The emails are actually being sent
+as seen in the image below.
+![mailtrap](mailtrap.png)
 
 ############################################
 

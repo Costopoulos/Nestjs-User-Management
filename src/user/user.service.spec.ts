@@ -36,6 +36,9 @@ describe('UserService (e2e)', () => {
     userModel = moduleFixture.get<Model<User>>(getModelToken('User'));
   });
 
+  // Set the timeout for all tests in this describe block
+  jest.setTimeout(10000); // Sets timeout to 10 seconds
+
   afterAll(async () => {
     await mongoConnection.dropDatabase();
     await mongoConnection.close();
